@@ -13,6 +13,8 @@ class PhonemoteBAM {
     void OnPluginStop();
     void onSwapBuffers(HDC hDC);
     void calibrate();
+    void pushXYZ(double x, double y, double z, double wts);
+    void update();
 
   private:
     enum TrackingType {
@@ -44,6 +46,5 @@ class PhonemoteBAM {
     double LATENCY = 0.0;
 
     static DWORD WINAPI StaticThreadStart(LPVOID instance);
-    DWORD WINAPI ThreadStart();
-    void pushXYZ(double x, double y, double z, double wts);
+    DWORD ThreadStart();
 };
