@@ -6,6 +6,33 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 
+int split(char *s, char **pvals, size_t valslen, char sep, char **pstr, char eol) {
+    int count = 0;
+    char *e = s;
+    char ch;
+    if (s) {
+        while (*s) {
+            ch = *e;
+            if (ch == sep || ch == eol || ch == '\0') {
+                *pvals++ = s;
+                count++;
+                *e++ = '\0';
+                s = e;
+                if (ch == eol || ch == '\0') {
+                    break;
+                }
+            } else {
+                e++;
+            }
+        }
+    }
+
+    if (pstr) {
+        *pstr = s;
+    }
+    return count;
+}
+
 Waldo::~Waldo() {
     stop();
 }
@@ -58,31 +85,6 @@ bool Waldo::isReceiving() {
     lock.unlock();
 
     return isReceving;
-}
-
-int Waldo::split(char *s, char **pvals, size_t valslen, char sep, char **pstr, char eol) {
-    int count = 0;
-    char *e = s;
-    char ch;
-    while (*s) {
-        ch = *e;
-        if (ch == sep || ch == eol || ch == '\0') {
-            *pvals++ = s;
-            count++;
-            *e++ = '\0';
-            s = e;
-            if (ch == eol || ch == '\0') {
-                break;
-            }
-        } else {
-            e++;
-        }
-    }
-
-    if (pstr) {
-        *pstr = s;
-    }
-    return count;
 }
 
 void Waldo::parseState(const char *name, char **grps, size_t grpc, WaldoState *outState) {

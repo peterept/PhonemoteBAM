@@ -4,6 +4,8 @@
 #include <vector>
 #include <winsock2.h>
 
+int split(char *s, char **pvals, size_t valslen, char sep = ',', char **pstr = NULL, char eol = '\n');
+
 struct WaldoState {
     struct {
         DWORD time;
@@ -135,7 +137,4 @@ class Waldo {
 
     void calculateStatistics(DWORD lastPingSentTime, long lastPingTime, long *pelapsedTimerMessageCount,
                              long *pElapsedTimeMessageLossCount, DWORD *pdwEndTime);
-
-
-    static int split(char *s, char **pvals, size_t valslen, char sep = ',', char **pstr = NULL, char eol = '\n');
 };
